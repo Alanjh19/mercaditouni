@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mercadito Uni — Diseño Ultra Premium</title>
+
+<meta property="og:title" content="Mercadito Uni — El mercado de tu comunidad" />
+<meta property="og:description" content="Comida artesanal, apuntes, emprendimientos y servicios de estudiantes Uni para estudiantes Uni." />
+<meta property="og:image" content="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=1200&q=80" />
+<meta property="og:url" content="https://mercauniv1.firebaseapp.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mercadito Uni" />
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-900: #002855;
+  --blue-800: #042060;
+  --gold-500: #D4AF37;
+  --gold-400: #E8C84A;
+  --gold-300: #F2D860;
+  --surface: #F8FAFC;
+  --muted: #F1F5F9;
+  --border: #E2E8F0;
+  --text: #002855;
+  --slate-4: #94A3B8;
+  --slate-5: #64748B;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { text-decoration: none; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9px; }
+
+/* ════════════════════════════════════════════
+   NAVBAR
+════════════════════════════════════════════ */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  background: transparent;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.navbar.scrolled {
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 4px 30px rgba(0,40,85,0.05);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+.navbar.scrolled .nav-wordmark { color: var(--blue-900); }
+.navbar.scrolled .nav-wordmark span { color: rgba(0,40,85,0.45); }
+.navbar.scrolled .nav-link { color: rgba(0,40,85,0.6); }
+.navbar.scrolled .nav-link:hover { color: var(--blue-900); background: rgba(0,40,85,0.05); }
+
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: var(--blue-900);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+}
+.nav-wordmark { font-size: 16px; font-weight: 900; color: white; letter-spacing: -0.02em; transition: color 0.4s; }
+.nav-wordmark span { font-weight: 400; color: rgba(255,255,255,0.55); transition: color 0.4s; }
+
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13.5px; padding: 8px 18px; border-radius: 12px;
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.7); font-family: inherit; font-weight: 600;
+  transition: all 0.2s;
+}
+.nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+
+/* Indicador de Filtro Mis Publicaciones */
+.nav-link.active-filter { background: rgba(212,175,55,0.2); color: var(--gold-500); }
+.navbar.scrolled .nav-link.active-filter { background: rgba(212,175,55,0.15); color: var(--blue-900); border: 1px solid var(--gold-400); }
+
+.btn-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+  border: none; cursor: pointer;
+  font-family: inherit; font-size: 13.5px; font-weight: 900;
+  color: var(--blue-900);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+}
+.btn-cta:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 12px 24px rgba(212,175,55,0.4); }
+
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+
+/* ════════════════════════════════════════════
+   HERO — ULTRA PREMIUM
+════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.aurora-bg { position: absolute; inset: 0; background: #010A15; pointer-events: none; }
+.aurora-orb { position: absolute; border-radius: 50%; animation: float-orb linear infinite; }
+.orb-1 { width: 800px; height: 800px; top: -200px; left: -100px; background: radial-gradient(circle, rgba(0,40,85,0.8), transparent 70%); filter: blur(80px); animation: orb1 20s infinite alternate; }
+.orb-2 { width: 600px; height: 600px; top: 10%; right: -100px; background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 60%); filter: blur(60px); animation: orb2 25s infinite alternate; }
+.orb-3 { width: 700px; height: 700px; bottom: -200px; left: 20%; background: radial-gradient(circle, rgba(0,80,180,0.2), transparent 70%); filter: blur(90px); animation: orb3 22s infinite alternate; }
+
+@keyframes orb1 { 0% { transform: translate(0,0); } 100% { transform: translate(100px, 50px); } }
+@keyframes orb2 { 0% { transform: translate(0,0); } 100% { transform: translate(-80px, 100px); } }
+@keyframes orb3 { 0% { transform: translate(0,0); } 100% { transform: translate(50px, -80px); } }
+
+.noise { position: absolute; inset: 0; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.grid-lines { position: absolute; inset: 0; opacity: 0.03; background-image: linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px); background-size: 100px 100px; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+
+.floaters { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.floater { position: absolute; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1); animation: float-card ease-in-out infinite; opacity: 0.8; }
+.floater img { width: 100%; height: 130px; object-fit: cover; display: block; filter: saturate(1.2); }
+.floater-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7), transparent); }
+
+.f1 { width: 190px; left: 5%; top: 20%; transform: rotate(-12deg); animation-duration: 8s; }
+.f2 { width: 180px; left: 78%; top: 15%; transform: rotate(10deg);  animation-duration: 10s; animation-delay: -2s; }
+.f3 { width: 200px; left: 82%; top: 60%; transform: rotate(-8deg); animation-duration: 9s; animation-delay: -4s; }
+.f4 { width: 170px; left: 8%;  top: 65%; transform: rotate(14deg); animation-duration: 11s; animation-delay: -6s; }
+
+@keyframes float-card { 0%,100% { translate: 0 0; } 50% { translate: 0 -20px; } }
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 900px; margin: 0 auto; padding: 0 24px;
+  text-align: center;
+  transform: translateY(-20px);
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 24px; border-radius: 50px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 40px; backdrop-filter: blur(10px);
+  animation: slide-up 0.8s cubic-bezier(.22,1,.36,1) 0.1s both;
+}
+.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-400); position: relative; box-shadow: 0 0 10px var(--gold-400); }
+.pulse-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--gold-400); opacity: 0.5; animation: ping 2s infinite; }
+.hero-badge span { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.8); letter-spacing: 0.15em; text-transform: uppercase; }
+
+.hero-h1 {
+  font-size: clamp(60px, 10vw, 110px);
+  font-weight: 900; color: white;
+  line-height: 0.95; letter-spacing: -0.04em;
+  margin-bottom: 24px;
+  animation: slide-up 0.9s cubic-bezier(.22,1,.36,1) 0.2s both;
+  text-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.hero-h1 .gold {
+  background: linear-gradient(130deg, #D4AF37 0%, #FFF2A8 40%, #D4AF37 80%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 19px; color: rgba(255,255,255,0.6); max-width: 540px;
+  margin: 0 auto 56px; line-height: 1.6; font-weight: 400;
+  animation: slide-up 0.8s cubic-bezier(.22,1,.36,1) 0.3s both;
+}
+
+/* Buscador Neón */
+.search-wrap {
+  max-width: 720px; margin: 0 auto;
+  animation: slide-up 0.8s cubic-bezier(.22,1,.36,1) 0.4s both;
+  position: relative;
+}
+.search-wrap::before {
+  content: ''; position: absolute; inset: -20px;
+  background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 60%);
+  z-index: -1; pointer-events: none;
+}
+.search-box {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 24px; overflow: hidden;
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  transition: all 0.4s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.search-box:focus-within {
+  border-color: rgba(212,175,55,0.5);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 4px rgba(212,175,55,0.15);
+  transform: translateY(-2px);
+}
+.search-icon { padding: 0 20px; color: rgba(255,255,255,0.4); font-size: 22px; }
+.search-input {
+  flex: 1; padding: 22px 12px 22px 0;
+  background: transparent; border: none; outline: none;
+  font-family: inherit; font-size: 16px; color: white; font-weight: 500;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 400; }
+.search-btn {
+  margin: 8px; padding: 14px 32px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+  border: none; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 900; color: var(--blue-900);
+  transition: all 0.3s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+}
+.search-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(212,175,55,0.5); }
+
+.search-tags {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 24px; flex-wrap: wrap;
+  animation: slide-up 0.8s cubic-bezier(.22,1,.36,1) 0.5s both;
+}
+.tag-label { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 8px; }
+.stag {
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6);
+  padding: 8px 18px; border-radius: 50px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer; transition: all 0.3s;
+}
+.stag:hover { color: white; background: rgba(255,255,255,0.1); border-color: rgba(212,175,55,0.4); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.15); }
+
+.hero-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 150px; background: linear-gradient(to top, #F8FAFC, transparent); pointer-events: none; }
+
+/* ════════════════════════════════════════════
+   BENTO CATEGORIES
+════════════════════════════════════════════ */
+.section-wrap { max-width: 1200px; margin: -60px auto 0; padding: 24px 24px 80px; position: relative; z-index: 10; }
+
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; }
+.section-title { font-size: 28px; font-weight: 900; color: var(--blue-900); letter-spacing: -0.03em; }
+.btn-all { font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 14px; border: none; cursor: pointer; transition: all 0.3s; background: white; color: var(--blue-900); box-shadow: 0 4px 15px rgba(0,40,85,0.05); }
+.btn-all:hover { box-shadow: 0 8px 25px rgba(0,40,85,0.1); transform: translateY(-2px); }
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 220px 220px;
+  gap: 20px;
+}
+
+.bento-cell {
+  position: relative; overflow: hidden;
+  border-radius: 32px; cursor: pointer;
+  background: #000;
+  box-shadow: 0 20px 40px rgba(0,40,85,0.08);
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+.bento-cell:hover { transform: scale(1.02); box-shadow: 0 30px 60px rgba(0,40,85,0.15); }
+
+.bento-cell::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 3;
+  background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%);
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.bento-cell:hover::before { opacity: 1; }
+
+.bento-tall { grid-row: span 2; }
+.bento-wide { grid-column: span 2; }
+
+.bento-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: transform 0.8s cubic-bezier(.22,1,.36,1), opacity 0.4s; }
+.bento-cell:hover .bento-img { transform: scale(1.15); opacity: 0.9; }
+
+.bento-overlay { position: absolute; inset: 0; transition: opacity 0.4s; }
+.ov-red  { background: linear-gradient(to top, rgba(120,20,20,0.9), transparent); }
+.ov-purple { background: linear-gradient(to top, rgba(60,10,100,0.9), transparent); }
+.ov-blue { background: linear-gradient(to top, rgba(0,30,80,0.9), transparent); }
+.ov-teal { background: linear-gradient(to top, rgba(0,60,40,0.9), transparent); }
+
+.bento-content { position: relative; z-index: 4; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding: 30px; transition: transform 0.4s ease; }
+.bento-cell:hover .bento-content { transform: translateY(-8px); }
+
+.bento-icon-wrap { width: 48px; height: 48px; border-radius: 16px; margin-bottom: 16px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 22px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.bento-tall .bento-icon-wrap { width: 60px; height: 60px; font-size: 28px; }
+
+.bento-title { font-size: 22px; font-weight: 900; color: white; line-height: 1.1; letter-spacing: -0.02em; }
+.bento-tall .bento-title { font-size: 32px; }
+.bento-wide .bento-title { font-size: 26px; }
+
+.bento-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 6px; font-weight: 500; }
+.bento-arrow { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 700; transition: all 0.3s; }
+.bento-arrow .arr-icon { color: #D4AF37; font-size: 16px; transition: transform 0.3s; }
+.bento-cell:hover .bento-arrow { color: white; }
+.bento-cell:hover .arr-icon { transform: translate(5px, -5px); }
+
+/* ════════════════════════════════════════════
+   PRODUCTS SECTION (GLASS CARDS)
+════════════════════════════════════════════ */
+.products-section { max-width: 1200px; margin: 0 auto; padding: 0 24px 100px; }
+
+.products-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; }
+.products-title { font-size: 32px; font-weight: 900; color: var(--blue-900); letter-spacing: -0.03em; }
+.btn-pub-outline { display: flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 16px; border: 2px solid rgba(0,40,85,0.1); background: white; font-family: inherit; font-size: 14px; font-weight: 800; color: var(--blue-900); cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.btn-pub-outline:hover { border-color: var(--gold-500); background: #FFFCF0; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.15); }
+
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+
+.card {
+  background: white; border-radius: 32px; overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all 0.4s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 10px 30px rgba(0,40,85,0.05);
+  border: 1px solid rgba(0,40,85,0.03);
+  position: relative;
+}
+.card:hover {
+  box-shadow: 0 30px 60px rgba(0,40,85,0.12);
+  transform: translateY(-10px);
+}
+
+.card-img-wrap { position: relative; height: 220px; overflow: hidden; background: #000; }
+.card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(.22,1,.36,1); }
+.card:hover .card-img { transform: scale(1.1); }
+.card-vignette { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); }
+
+.sold-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: white; letter-spacing: 0.15em; z-index: 5; pointer-events: none; }
+
+.card-badge { position: absolute; top: 16px; left: 16px; padding: 6px 14px; border-radius: 12px; font-size: 11px; font-weight: 900; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.05em; text-transform: uppercase; color: white; background: rgba(0,0,0,0.3); z-index: 6; }
+
+.btn-like { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 14px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.3s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; }
+.btn-like:hover { background: white; transform: scale(1.15); }
+.btn-like.liked { background: white; border-color: #EF4444; color: #EF4444; }
+
+.price-chip { position: absolute; bottom: 16px; right: 16px; padding: 8px 16px; border-radius: 14px; background: rgba(255,255,255,0.9); border: 1px solid white; backdrop-filter: blur(10px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); color: var(--blue-900); z-index: 6; }
+.price-main { font-size: 20px; font-weight: 900; letter-spacing: -0.03em; }
+.price-curr { font-size: 11px; font-weight: 700; opacity: 0.6; }
+
+.card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.card-meta { display: flex; align-items: center; justify-content: space-between; }
+.cat-chip { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 10px; }
+.card-title { font-size: 18px; font-weight: 900; color: var(--blue-900); line-height: 1.3; letter-spacing: -0.02em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-desc { font-size: 14px; color: var(--slate-5); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: -6px; }
+
+.card-footer { display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border); margin-top: auto; }
+.seller-ava { width: 32px; height: 32px; border-radius: 12px; background: var(--blue-900); color: var(--gold-400); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+.seller-name { font-size: 13px; color: var(--blue-900); font-weight: 800; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.btn-contact { padding: 10px 18px; border-radius: 12px; background: var(--surface); border: 2px solid var(--border); font-family: inherit; font-size: 13px; font-weight: 800; color: var(--blue-900); cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 6px; }
+.card:hover .btn-contact { background: var(--blue-900); border-color: var(--blue-900); color: white; }
+
+/* Botón Borrar y Vendido para Dueños */
+.owner-actions { display: flex; gap: 6px; }
+.btn-delete { width: 36px; height: 36px; border-radius: 12px; background: #FEF2F2; border: 1px solid #FCA5A5; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: #DC2626; font-size: 16px; }
+.btn-delete:hover { background: #DC2626; color: white; border-color: #DC2626; transform: scale(1.1); }
+
+.btn-sold { width: 36px; height: 36px; border-radius: 12px; background: #F3F4F6; border: 1px solid #D1D5DB; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: #4B5563; font-size: 16px; }
+.btn-sold:hover { background: #9CA3AF; color: white; border-color: #9CA3AF; transform: scale(1.1); }
+.btn-sold.is-sold { background: #10B981; color: white; border-color: #10B981; }
+
+/* Load More Btn */
+.btn-load-more { margin: 40px auto 0; display: none; padding: 14px 32px; border-radius: 16px; background: white; border: 2px solid var(--border); font-family: inherit; font-size: 15px; font-weight: 800; color: var(--blue-900); cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.btn-load-more:hover { border-color: var(--blue-900); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,40,85,0.1); }
+.btn-load-more.show { display: flex; }
+
+/* Publish CTA card */
+.card-cta { border-radius: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px 24px; min-height: 380px; cursor: pointer; border: 3px dashed rgba(0,40,85,0.1); background: var(--surface); transition: all 0.4s cubic-bezier(.22,1,.36,1); text-align: center; }
+.card-cta:hover { border-color: var(--gold-500); background: #FFFCF0; transform: translateY(-10px); box-shadow: 0 30px 60px rgba(212,175,55,0.15); }
+.cta-icon-wrap { width: 80px; height: 80px; border-radius: 24px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; font-size: 32px; transition: all 0.4s; }
+.card-cta:hover .cta-icon-wrap { background: var(--gold-500); transform: rotate(10deg) scale(1.1); box-shadow: 0 20px 40px rgba(212,175,55,0.4); }
+.cta-title { font-size: 18px; font-weight: 900; color: var(--blue-900); }
+.cta-sub { font-size: 14px; color: var(--slate-5); line-height: 1.6; max-width: 200px; }
+
+/* ════════════════════════════════════════════
+   MODAL
+════════════════════════════════════════════ */
+.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,20,40,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); align-items: center; justify-content: center; padding: 16px; animation: fade-in 0.3s ease; }
+.modal-backdrop.open { display: flex; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.modal-panel { background: white; border-radius: 32px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modal-in 0.4s cubic-bezier(.22,1,.36,1) both; }
+@keyframes modal-in { from { opacity:0; transform:scale(.95) translateY(30px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.modal-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.modal-icon { width: 36px; height: 36px; border-radius: 12px; background: var(--blue-900); display: flex; align-items: center; justify-content: center; color: var(--gold-400); font-size: 18px; }
+.modal-title { font-size: 18px; font-weight: 900; color: var(--blue-900); }
+.modal-sub { font-size: 13px; color: var(--slate-5); }
+.btn-close { width: 36px; height: 36px; border-radius: 12px; background: var(--muted); border: none; cursor: pointer; color: var(--slate-5); font-size: 18px; transition: all 0.2s; }
+.btn-close:hover { background: var(--border); color: var(--blue-900); }
+.modal-form { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field-label { font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-5); }
+.input, .select, .textarea { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--border); background: var(--surface); font-family: inherit; font-size: 15px; color: var(--blue-900); font-weight: 600; outline: none; transition: all 0.3s; }
+.input[type="file"] { padding: 12px; background: white; }
+.input:focus, .select:focus, .textarea:focus { border-color: var(--blue-900); background: white; box-shadow: 0 4px 20px rgba(0,40,85,0.08); }
+.btn-submit { width: 100%; padding: 18px; border-radius: 18px; border: none; cursor: pointer; font-family: inherit; font-size: 16px; font-weight: 900; color: white; background: var(--blue-900); transition: all 0.3s; margin-top: 10px; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,40,85,0.3); }
+
+/* TOAST NOTIFICATIONS */
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+.toast { background: white; color: var(--blue-900); padding: 16px 24px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,40,85,0.15); font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 12px; animation: slide-in-toast 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; border-left: 4px solid var(--gold-500); }
+.toast.error { border-left-color: #E74C3C; }
+@keyframes slide-in-toast { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slide-out-toast { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+
+/* Fix Empty State */
+.empty-state { text-align: center; padding: 80px 0; display: none; }
+.empty-state.show { display: block; }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <div class="nav-icon">UM</div>
+    <span class="nav-wordmark">Mercadito <span>Uni</span></span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="setCat('gula')">Gula</button>
+    <button class="nav-link" onclick="setCat('bazar')">Bazar</button>
+    <button class="nav-link" onclick="setCat('servicios')">Servicios</button>
+    <button class="nav-link" onclick="setCat('emprendimiento')">Emprendimiento</button>
+    <button class="nav-link" id="btnMyPosts" style="display:none;" onclick="setCat('mis_publicaciones', this)">Mis Publicaciones</button>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-link" id="btnLogout" style="display:none;">Salir</button>
+    <button class="btn-cta" id="btnLogin">Inicia sesión</button>
+    <button class="btn-cta" id="btnPublish" style="display:none;" onclick="openModal()">🛍 Vender ahora</button>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="aurora-bg">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+    <div class="aurora-orb orb-3"></div>
+    <div class="noise"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <div class="floaters">
+    <div class="floater f1"><img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&q=80" alt=""><div class="floater-overlay"></div></div>
+    <div class="floater f2"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&q=80" alt=""><div class="floater-overlay"></div></div>
+    <div class="floater f3"><img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&q=80" alt=""><div class="floater-overlay"></div></div>
+    <div class="floater f4"><img src="https://images.unsplash.com/photo-1573408301185-9519f94815f4?w=400&q=80" alt=""><div class="floater-overlay"></div></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="pulse-dot"></div>
+      <span>Marketplace Oficial Uni · Ciclo 2025</span>
+    </div>
+
+    <h1 class="hero-h1">
+      El mercado<br>
+      <span class="gold">de tu comunidad.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Comida artesanal, apuntes, emprendimientos y servicios de estudiantes Uni para estudiantes Uni.
+    </p>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="searchInput" placeholder="Buscar tacos, tutorías, apuntes de cálculo..." oninput="filterProducts()">
+        <button class="search-btn" onclick="filterProducts()">Buscar</button>
+      </div>
+      <div class="search-tags">
+        <span class="tag-label">Tendencias →</span>
+        <button class="stag" onclick="setSearch('Tacos')">Tacos</button>
+        <button class="stag" onclick="setSearch('Python')">Python</button>
+        <button class="stag" onclick="setSearch('Diseño')">Diseño</button>
+        <button class="stag" onclick="setSearch('Apuntes')">Apuntes</button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</section>
+
+<div class="section-wrap">
+  <div class="section-head">
+    <h2 class="section-title">Explorar categorías</h2>
+    <button class="btn-all active" id="btnAll" onclick="setCat('all')">Ver todo</button>
+  </div>
+
+  <div class="bento-grid" id="bentoGrid">
+    <div class="bento-cell bento-tall" data-cat="gula" onclick="setCat('gula',this)">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=80" alt="Gula">
+      <div class="bento-overlay ov-red"></div>
+      <div class="bento-content">
+        <div class="bento-icon-wrap">🍜</div>
+        <div class="bento-title">Gula Universitaria</div>
+        <div class="bento-sub">Sabores que enamoran</div>
+        <div class="bento-arrow">Explorar <span class="arr-icon">↗</span></div>
+      </div>
+    </div>
+
+    <div class="bento-cell" data-cat="emprendimiento" onclick="setCat('emprendimiento',this)">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=80" alt="Emprendimiento">
+      <div class="bento-overlay ov-purple"></div>
+      <div class="bento-content">
+        <div class="bento-icon-wrap">💡</div>
+        <div class="bento-title">Emprendimiento</div>
+        <div class="bento-arrow">Explorar <span class="arr-icon">↗</span></div>
+      </div>
+    </div>
+
+    <div class="bento-cell" data-cat="bazar" onclick="setCat('bazar',this)">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80" alt="Bazar">
+      <div class="bento-overlay ov-blue"></div>
+      <div class="bento-content">
+        <div class="bento-icon-wrap">📚</div>
+        <div class="bento-title">Bazar Uni</div>
+        <div class="bento-arrow">Explorar <span class="arr-icon">↗</span></div>
+      </div>
+    </div>
+
+    <div class="bento-cell bento-wide" data-cat="servicios" onclick="setCat('servicios',this)">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=900&q=80" alt="Servicios">
+      <div class="bento-overlay ov-teal"></div>
+      <div class="bento-content">
+        <div class="bento-icon-wrap">🛠</div>
+        <div class="bento-title">Servicios</div>
+        <div class="bento-sub">Talento estudiantil a tu alcance</div>
+        <div class="bento-arrow">Explorar <span class="arr-icon">↗</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="products-section">
+  <div class="products-header">
+    <h2 class="products-title" id="prodTitle">Todos los productos</h2>
+    <button class="btn-pub-outline" onclick="openModal()">🛒 Publicar producto</button>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--slate-5);">
+      Cargando productos de Firebase...
+    </div>
+  </div>
+  <button id="btnLoadMore" class="btn-load-more" onclick="loadMoreProducts()">Cargar más</button>
+  
+  <div class="empty-state" id="emptyState">
+    <h2>Sin resultados</h2>
+    <p>No encontramos lo que buscas. Intenta con otra palabra o categoría.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="handleBdClick(event)">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:15px">
+        <div class="modal-icon">✦</div>
+        <div>
+          <div class="modal-title">Publicar producto</div>
+          <div class="modal-sub">Vende a toda la comunidad Uni</div>
+        </div>
+      </div>
+      <button class="btn-close" onclick="closeModal()">✕</button>
+    </div>
+    <form class="modal-form" id="addForm">
+      <div class="field">
+        <label class="field-label">Nombre del producto</label>
+        <input class="input" type="text" id="pTitle" placeholder="Ej. Tacos de canasta..." required>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="field">
+          <label class="field-label">Precio ($)</label>
+          <input class="input" type="number" id="pPrice" placeholder="0.00" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Categoría</label>
+          <select class="input select" id="pCat" required>
+            <option value="" disabled selected>Elegir...</option>
+            <option value="gula">Gula</option>
+            <option value="emprendimiento">Emprendimiento</option>
+            <option value="bazar">Bazar</option>
+            <option value="servicios">Servicios</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Imagen del producto</label>
+        <input class="input" type="file" id="pImg" accept="image/*" required>
+      </div>
+      <div class="field">
+        <label class="field-label">WhatsApp (Para que te contacten)</label>
+        <input class="input" type="tel" id="pPhone" placeholder="Ej. 9931234567" required>
+      </div>
+      <div class="field">
+        <label class="field-label">Descripción</label>
+        <textarea class="input textarea" id="pDesc" rows="3" placeholder="Detalles de tu producto..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit" id="btnSubmit">✦ Publicar</button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  // Configuración e Inicialización de Firebase V9
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, query, orderBy, limit, startAfter, deleteDoc, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+  // Aquí actualizamos con las nuevas llaves de mercauniv1
+  const firebaseConfig = {
+    apiKey: "AIzaSyAH1HeDku3JoJFjKKvR5B_9aV7gEk-DKyY",
+    authDomain: "mercauniv1.firebaseapp.com",
+    projectId: "mercauniv1",
+    storageBucket: "mercauniv1.firebasestorage.app",
+    messagingSenderId: "539652520763",
+    appId: "1:539652520763:web:42ef90352dfab178be551e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const provider = new GoogleAuthProvider();
+
+  // Variables globales
+  let currentUser = null;
+  let productsData = [];
+  let activeListeners = [];
+  let lastVisible = null;
+  let hasMoreData = false;
+  let isFetching = false;
+  window.activeCat = "all";
+  window.searchQ = "";
+
+  const CATS = {
+    gula:          { label:"Gula",          color:"#C0392B", bg:"rgba(192,57,43,0.1)" },
+    emprendimiento:{ label:"Emprend.",      color:"#7209b7", bg:"rgba(114,9,183,0.1)" },
+    bazar:         { label:"Bazar",         color:"#0096c7", bg:"rgba(0,150,199,0.1)" },
+    servicios:     { label:"Servicios",     color:"#2d6a4f", bg:"rgba(45,106,79,0.1)" },
+  };
+
+  // Toast Notifications
+  window.showToast = function(msg, type = 'success') {
+    let container = document.getElementById('toastContainer');
+    if(!container) {
+      container = document.createElement('div');
+      container.id = 'toastContainer';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${type === 'error' ? '⚠️' : '✨'}</span> ${msg}`;
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.animation = 'slide-out-toast 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards';
+      setTimeout(() => toast.remove(), 400);
+    }, 3000);
+  }
+
+  // Manejo de Autenticación
+  const btnLogin = document.getElementById('btnLogin');
+  const btnPublish = document.getElementById('btnPublish');
+  const btnLogout = document.getElementById('btnLogout');
+  const btnMyPosts = document.getElementById('btnMyPosts');
+
+  btnLogin.addEventListener('click', () => signInWithPopup(auth, provider));
+  btnLogout.addEventListener('click', () => signOut(auth));
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if(user) {
+      btnLogin.style.display = 'none';
+      btnPublish.style.display = 'flex';
+      btnLogout.style.display = 'block';
+      btnMyPosts.style.display = 'block';
+    } else {
+      btnLogin.style.display = 'flex';
+      btnPublish.style.display = 'none';
+      btnLogout.style.display = 'none';
+      btnMyPosts.style.display = 'none';
+      if(window.activeCat === 'mis_publicaciones') window.setCat('all');
+    }
+    window.render();
+  });
+
+  // Funciones LocalStorage y Botones Propietario
+  window.toggleLike = function(id) {
+    let liked = JSON.parse(localStorage.getItem('likedProducts') || '[]');
+    if(liked.includes(id)) {
+      liked = liked.filter(pid => pid !== id);
+    } else {
+      liked.push(id);
+    }
+    localStorage.setItem('likedProducts', JSON.stringify(liked));
+    window.render(); // Refrescar render para actualizar color
+  }
+
+  window.toggleSold = async function(id, currentStatus) {
+    try {
+      await updateDoc(doc(db, "products", id), { vendido: !currentStatus });
+      window.showToast(!currentStatus ? "Marcado como Agotado" : "Marcado como Disponible", "success");
+    } catch(e) {
+      console.error(e);
+      window.showToast("Error al actualizar estado", "error");
+    }
+  }
+
+  window.deleteProduct = async function(id) {
+    if(!confirm("¿Seguro que deseas borrar este producto? Se eliminará permanentemente.")) return;
+    try {
+      const prod = productsData.find(p => p.id === id);
+      await deleteDoc(doc(db, "products", id));
+      if(prod && prod.storagePath) {
+        const imgRef = ref(storage, prod.storagePath);
+        await deleteObject(imgRef).catch(e => console.warn("La imagen ya no existía en Storage"));
+      }
+      window.showToast("Producto eliminado correctamente", "success");
+    } catch(err) {
+      console.error(err);
+      window.showToast("No se pudo eliminar el producto", "error");
+    }
+  }
+
+  // Compresión de imagen con Canvas API
+  async function compressImage(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob((blob) => resolve(blob), 'image/webp', 0.8);
+        };
+      };
+    });
+  }
+
+  // Lectura de Base de Datos Paginada (onSnapshot Real-time)
+  function loadProducts(isLoadMore = false) {
+    if (isFetching) return;
+    isFetching = true;
+    
+    let q;
+    if (isLoadMore && lastVisible) {
+      q = query(collection(db, "products"), orderBy("createdAt", "desc"), startAfter(lastVisible), limit(12));
+    } else {
+      activeListeners.forEach(unsub => unsub());
+      activeListeners = [];
+      productsData = [];
+      lastVisible = null;
+      q = query(collection(db, "products"), orderBy("createdAt", "desc"), limit(12));
+    }
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        hasMoreData = snapshot.docs.length === 12;
+
+        snapshot.docChanges().forEach((change) => {
+          const docData = { id: change.doc.id, ...change.doc.data() };
+          if (change.type === "added") {
+            if (!productsData.find(p => p.id === docData.id)) productsData.push(docData);
+          }
+          if (change.type === "modified") {
+            const idx = productsData.findIndex(p => p.id === docData.id);
+            if (idx !== -1) productsData[idx] = docData;
+          }
+          if (change.type === "removed") {
+            productsData = productsData.filter(p => p.id !== docData.id);
+          }
+        });
+
+        // Asegurar ordenamiento global al recibir data asíncrona
+        productsData.sort((a, b) => {
+          const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+          const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+          return timeB - timeA;
+        });
+
+        window.render();
+      } else {
+        if (isLoadMore) hasMoreData = false;
+        window.render();
+      }
+      isFetching = false;
+    }, (error) => {
+      console.error("Error onSnapshot:", error);
+      isFetching = false;
+    });
+
+    activeListeners.push(unsubscribe);
+  }
+
+  window.loadMoreProducts = () => loadProducts(true);
+
+  // Lógica Visual compartida (Spotlight effect)
+  document.querySelectorAll('.bento-cell').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+  });
+
+  // Renderizado dinámico
+  window.render = function() {
+    const grid = document.getElementById("productGrid");
+    const likedArr = JSON.parse(localStorage.getItem('likedProducts') || '[]');
+    
+    const filtered = productsData.filter(p => {
+      if (window.activeCat === 'mis_publicaciones') {
+        return currentUser && p.uid === currentUser.uid;
+      }
+      const catMatch = window.activeCat === "all" || p.cat === window.activeCat;
+      const searchMatch = !window.searchQ || p.title.toLowerCase().includes(window.searchQ.toLowerCase());
+      return catMatch && searchMatch;
+    });
+    
+    if (!filtered.length) { 
+      grid.innerHTML = ""; 
+      document.getElementById("emptyState").classList.add("show");
+      document.getElementById("btnLoadMore").classList.remove("show");
+      return; 
+    }
+    
+    document.getElementById("emptyState").classList.remove("show");
+
+    grid.innerHTML = filtered.map(p => {
+      const isOwner = currentUser && p.uid === currentUser.uid;
+      const isLiked = likedArr.includes(p.id);
+      
+      const ownerActions = isOwner ? `
+        <div class="owner-actions">
+          <button class="btn-sold ${p.vendido ? 'is-sold' : ''}" title="${p.vendido ? 'Marcar disponible' : 'Marcar vendido'}" onclick="toggleSold('${p.id}', ${!!p.vendido})">📦</button>
+          <button class="btn-delete" title="Borrar publicación" onclick="deleteProduct('${p.id}')">🗑️</button>
+        </div>` : '';
+
+      return `
+      <article class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="${p.img}" alt="" style="${p.vendido ? 'filter: grayscale(1); opacity: 0.5;' : ''}">
+          <div class="card-vignette"></div>
+          ${p.vendido ? `<div class="sold-overlay">AGOTADO</div>` : ''}
+          <button class="btn-like ${isLiked ? 'liked' : ''}" onclick="toggleLike('${p.id}')">${isLiked ? '❤️' : '🤍'}</button>
+          <div class="price-chip"><span class="price-main">$${p.price}</span><span class="price-curr">MXN</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="cat-chip" style="color:${CATS[p.cat]?.color || '#000'};background:${CATS[p.cat]?.bg || '#eee'}">${CATS[p.cat]?.label || p.cat}</span>
+          </div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-desc">${p.desc}</div>
+          <div class="card-footer">
+            <div class="seller-ava">${p.seller ? p.seller[0].toUpperCase() : 'A'}</div>
+            <div class="seller-name">${p.seller}</div>
+            <a href="https://wa.me/52${p.phone}?text=Hola,%20me%20interesa%20tu%20producto:%20${encodeURIComponent(p.title)}" target="_blank" class="btn-contact" style="text-decoration:none;">💬 Contactar</a>
+            ${ownerActions}
+          </div>
+        </div>
+      </article>`;
+    }).join("") + `<div class="card-cta" onclick="openModal()"><div class="cta-icon-wrap">🛍</div><div class="cta-title">¿Tienes algo que vender?</div><div class="cta-sub">Inicia sesión y publica gratis.</div></div>`;
+
+    // Manejar botón "Cargar más"
+    const loadMoreBtn = document.getElementById("btnLoadMore");
+    if (hasMoreData && window.activeCat !== 'mis_publicaciones' && !window.searchQ) {
+      loadMoreBtn.classList.add("show");
+    } else {
+      loadMoreBtn.classList.remove("show");
+    }
+  }
+
+  // Funciones UI
+  window.setCat = function(cat) {
+    window.activeCat = cat;
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active-filter'));
+    if(cat === 'mis_publicaciones') {
+      document.getElementById('prodTitle').textContent = 'Mis Publicaciones';
+      document.getElementById('btnMyPosts').classList.add('active-filter');
+    } else {
+      document.getElementById("prodTitle").textContent = cat === 'all' ? 'Todos los productos' : (document.querySelector(`[data-cat="${cat}"] .bento-title`)?.textContent || 'Categoría');
+    }
+    window.render();
+    document.querySelector(".products-section").scrollIntoView({ behavior: "smooth" });
+  }
+
+  window.filterProducts = function() { 
+    window.searchQ = document.getElementById("searchInput").value; 
+    window.render(); 
+  }
+  
+  window.setSearch = function(q) { 
+    document.getElementById("searchInput").value = q; 
+    window.filterProducts(); 
+  }
+
+  window.openModal = function() { 
+    if(!currentUser) {
+      window.showToast("Debes iniciar sesión con Google para publicar", "error");
+      return signInWithPopup(auth, provider);
+    }
+    document.getElementById("modalBackdrop").classList.add("open"); 
+  }
+  
+  window.closeModal = function() { document.getElementById("modalBackdrop").classList.remove("open"); }
+  window.handleBdClick = function(e) { if(e.target.id === 'modalBackdrop') window.closeModal(); }
+  window.addEventListener("scroll", () => document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50));
+
+  // Subida de datos a Firebase
+  const addForm = document.getElementById('addForm');
+  addForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!currentUser) return window.showToast("Debes iniciar sesión para publicar.", "error");
+    
+    const title = document.getElementById('pTitle').value;
+    const price = document.getElementById('pPrice').value;
+    const cat = document.getElementById('pCat').value;
+    const phone = document.getElementById('pPhone').value;
+    const desc = document.getElementById('pDesc').value;
+    const file = document.getElementById('pImg').files[0];
+
+    const submitBtn = document.getElementById('btnSubmit');
+    submitBtn.textContent = "Comprimiendo imagen...";
+    submitBtn.disabled = true;
+
+    try {
+      const compressedBlob = await compressImage(file);
+      submitBtn.textContent = "Subiendo y publicando...";
+
+      const storagePath = `productos/${currentUser.uid}_${Date.now()}.webp`;
+      const storageRef = ref(storage, storagePath);
+      await uploadBytes(storageRef, compressedBlob);
+      const imgUrl = await getDownloadURL(storageRef);
+
+      await addDoc(collection(db, "products"), {
+        title,
+        price: Number(price),
+        cat,
+        phone,
+        desc,
+        vendido: false,
+        img: imgUrl,
+        storagePath: storagePath,
+        seller: currentUser.displayName || 'Estudiante Uni',
+        uid: currentUser.uid,
+        createdAt: new Date()
+      });
+
+      addForm.reset();
+      window.closeModal();
+      window.showToast("¡Producto publicado con éxito!", "success");
+    } catch(err) {
+      console.error(err);
+      window.showToast("Hubo un error al publicar. Verifica las reglas de Firebase.", "error");
+    } finally {
+      submitBtn.textContent = "✦ Publicar";
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Carga inicial
+  loadProducts();
+</script>
+</body>
+</html>
