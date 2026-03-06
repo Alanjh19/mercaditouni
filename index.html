@@ -42,8 +42,13 @@ body {
   animation: pageFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Evita scrollear el fondo cuando el modal esta abierto */
-body.modal-open { overflow: hidden; }
+/* ═══════════════════════════════════════════
+   BUG FIX: el overflow:hidden en body rompía
+   los modales en iOS Safari (aparecían fuera
+   del viewport al haber scroll). Se reemplaza
+   con lockScroll() en JS (ver abajo).
+   La clase .modal-open ya no se usa en CSS.
+═══════════════════════════════════════════ */
 
 @keyframes pageFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -615,6 +620,30 @@ a { text-decoration: none; }
   import { getFirestore, collection, addDoc, query, orderBy, limit, startAfter, deleteDoc, doc, onSnapshot, updateDoc, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
+  // ════════════════════════════════════════════
+  // BUG FIX: iOS Safari scroll lock para modales
+  // El problema: body{overflow:hidden} no funciona
+  // en iOS cuando hay scroll, el modal aparece fuera
+  // del viewport. Solución: fijar body con position:fixed
+  // ════════════════════════════════════════════
+  let _scrollY = 0;
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + _scrollY + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.overflow = 'hidden';
+  }
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, _scrollY);
+  }
+
   const firebaseConfig = {
     apiKey: "AIzaSyAH1HeDku3JoJFjKKvR5B_9aV7gEk-DKyY",
     authDomain: "mercauniv1.firebaseapp.com",
@@ -767,7 +796,7 @@ a { text-decoration: none; }
   window.openComments = function(productId, productTitle) {
     currentProductIdForComments = productId;
     document.getElementById("commentsModalSub").textContent = productTitle;
-    document.body.classList.add("modal-open");
+    lockScroll(); // FIX: reemplaza document.body.classList.add("modal-open")
     document.getElementById("commentsModalBackdrop").classList.add("open");
     
     const container = document.getElementById("commentsContainer");
@@ -798,7 +827,7 @@ a { text-decoration: none; }
   }
 
   window.closeCommentsModal = function() {
-    document.body.classList.remove("modal-open");
+    unlockScroll(); // FIX: reemplaza document.body.classList.remove("modal-open")
     document.getElementById("commentsModalBackdrop").classList.remove("open");
     if(commentsListenerUnsub) {
       commentsListenerUnsub();
@@ -1030,12 +1059,12 @@ a { text-decoration: none; }
     submitBtn.disabled = true;
     submitBtn.textContent = 'Ingresa 10 dígitos en Teléfono';
     
-    document.body.classList.add("modal-open");
+    lockScroll(); // FIX: reemplaza document.body.classList.add("modal-open")
     document.getElementById("modalBackdrop").classList.add("open"); 
   }
   
   window.closeModal = function() { 
-    document.body.classList.remove("modal-open");
+    unlockScroll(); // FIX: reemplaza document.body.classList.remove("modal-open")
     document.getElementById("modalBackdrop").classList.remove("open"); 
   }
   
