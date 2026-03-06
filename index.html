@@ -42,6 +42,7 @@ body {
   animation: pageFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* Evita scrollear el fondo cuando el modal esta abierto */
 body.modal-open { overflow: hidden; }
 
 @keyframes pageFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -66,28 +67,33 @@ a { text-decoration: none; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shineText 4s linear infinite;
+  animation: shineText 6s linear infinite; /* Animacion lenta y fluida */
 }
 
 @keyframes pulseSoft {
   0%, 100% { box-shadow: 0 4px 12px rgba(212,175,55,0.3); transform: scale(1); }
-  50% { box-shadow: 0 4px 25px rgba(212,175,55,0.7); transform: scale(1.03); }
+  50% { box-shadow: 0 4px 25px rgba(212,175,55,0.6); transform: scale(1.03); }
 }
 
 @keyframes bounceEmoji {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)); }
+  50% { transform: translateY(-5px); filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); }
 }
 
-/* Float Animations for Hero (Hardware Accelerated) */
+/* Animaciones Flotantes para la portada (optimizadas) */
 @keyframes float-f1 { 0%,100% { transform: rotate(-12deg) translateY(0); } 50% { transform: rotate(-12deg) translateY(-20px); } }
 @keyframes float-f2 { 0%,100% { transform: rotate(10deg) translateY(0); } 50% { transform: rotate(10deg) translateY(-20px); } }
 @keyframes float-f3 { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-8deg) translateY(-20px); } }
 @keyframes float-f4 { 0%,100% { transform: rotate(14deg) translateY(0); } 50% { transform: rotate(14deg) translateY(-20px); } }
 
-/* Scroll Reveal Classes */
-.scroll-reveal { opacity: 0; transform: translateY(50px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
-.scroll-reveal.scroll-active { opacity: 1; transform: translateY(0); }
+/* Scroll Pulse (Latido al aparecer en pantalla) */
+.scroll-pulse { opacity: 1; } /* Siempre visible para no "aparecer de la nada" */
+.scroll-pulse.pop-active { animation: popScale 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+@keyframes popScale {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
 
 /* ════════════════════════════════════════════
    NAVBAR & MOBILE MENU
@@ -129,6 +135,10 @@ a { text-decoration: none; }
 .orb-2 { width: 600px; height: 600px; top: 10%; right: -100px; background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 60%); filter: blur(60px); animation: orb2 25s infinite alternate; }
 .orb-3 { width: 700px; height: 700px; bottom: -200px; left: 20%; background: radial-gradient(circle, rgba(0,80,180,0.2), transparent 70%); filter: blur(90px); animation: orb3 22s infinite alternate; }
 
+@keyframes orb1 { 0% { transform: translate(0,0); } 100% { transform: translate(100px, 50px); } }
+@keyframes orb2 { 0% { transform: translate(0,0); } 100% { transform: translate(-80px, 100px); } }
+@keyframes orb3 { 0% { transform: translate(0,0); } 100% { transform: translate(50px, -80px); } }
+
 .noise { position: absolute; inset: 0; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .grid-lines { position: absolute; inset: 0; opacity: 0.03; background-image: linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px); background-size: 100px 100px; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
 
@@ -151,7 +161,7 @@ a { text-decoration: none; }
 .hero-h1 { font-size: clamp(45px, 10vw, 110px); font-weight: 900; color: white; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 24px; text-shadow: 0 20px 40px rgba(0,0,0,0.5); }
 .hero-sub { font-size: clamp(15px, 4vw, 19px); color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto 40px; line-height: 1.6; font-weight: 400; }
 
-/* Buscador Neón */
+/* Buscador Neón optimizado (Sin bug de sombra cortada) */
 .search-wrap { max-width: 720px; margin: 0 auto; position: relative; }
 .search-wrap::before { content: ''; position: absolute; inset: -20px; background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 60%); z-index: -1; pointer-events: none; }
 .search-box { 
@@ -215,7 +225,7 @@ a { text-decoration: none; }
 .bento-cell:hover .arr-icon { transform: translate(5px, -5px); }
 
 /* ════════════════════════════════════════════
-   PRODUCTS SECTION & SKELETON
+   PRODUCTS SECTION
 ════════════════════════════════════════════ */
 .products-section { max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
 .products-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 15px;}
@@ -250,7 +260,7 @@ a { text-decoration: none; }
 
 /* Tarjeta Footer Organizada */
 .card-footer { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid var(--border); margin-top: auto; }
-.seller-info { display: flex; align-items: center; gap: 10px; width: 100%; }
+.seller-info { display: flex; align-items: center; gap: 10px; width: 100%; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
 .seller-ava { width: 32px; height: 32px; border-radius: 12px; background: var(--blue-900); color: var(--gold-400); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .seller-name { font-size: 13px; color: var(--blue-900); font-weight: 800; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -297,12 +307,13 @@ a { text-decoration: none; }
 .site-footer strong { color: var(--blue-900); }
 
 /* ════════════════════════════════════════════
-   MODALS FIJOS (Publicar & Comentarios)
+   MODALS FIJOS Y SEGUROS (Publicar & Comentarios)
 ════════════════════════════════════════════ */
-.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,20,40,0.6); backdrop-filter: blur(8px); padding: 16px; animation: fade-in 0.3s ease; align-items: center; justify-content: center;}
+.modal-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(0,20,40,0.6); backdrop-filter: blur(8px); padding: 16px; animation: fade-in 0.3s ease; align-items: center; justify-content: center;}
 .modal-backdrop.open { display: flex; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-.modal-panel { background: white; border-radius: 32px; width: 100%; max-width: 500px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modal-in 0.4s cubic-bezier(.22,1,.36,1) both; position: relative; }
+
+.modal-panel { background: white; border-radius: 32px; width: 100%; max-width: 500px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modal-in 0.4s cubic-bezier(.22,1,.36,1) both; position: relative; margin: auto;}
 @keyframes modal-in { from { opacity:0; transform:scale(.95) translateY(30px); } to { opacity:1; transform:scale(1) translateY(0); } }
 
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--border); border-top-left-radius: 32px; border-top-right-radius: 32px; flex-shrink: 0;}
@@ -351,20 +362,18 @@ a { text-decoration: none; }
 }
 
 @media (max-width: 768px) {
-  /* Menú Hamburguesa */
   .menu-toggle { display: block; }
   .nav-links { position: absolute; top: 72px; left: 0; width: 100%; background: white; flex-direction: column; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; opacity: 0; visibility: hidden; transform: translateY(-10px); }
   .nav-links.open { opacity: 1; visibility: visible; transform: translateY(0); }
   .nav-links .nav-link { color: var(--blue-900); padding: 14px; text-align: left; width: 100%; font-size: 15px; }
   
   .hero { padding-top: 100px; }
-  .floaters { display: none; } /* Limpiamos ruido visual en movil */
+  .floaters { display: none; }
   
   .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
   .bento-tall, .bento-wide { grid-column: span 1; grid-row: span 1; }
   .bento-cell { height: auto; min-height: 220px; }
   
-  /* Modales fijos y perfectos en movil */
   .modal-panel { max-height: 90vh; border-radius: 24px; }
   .modal-header { border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 20px;}
   .comment-input-area { border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; padding: 20px;}
@@ -375,8 +384,6 @@ a { text-decoration: none; }
   .search-input { width: 100%; padding: 12px; text-align: center; border-radius: 20px; }
   .search-btn { width: 100%; margin: 0; }
   .search-icon { display: none; }
-
-  .card-footer { gap: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -464,7 +471,7 @@ a { text-decoration: none; }
   </div>
 
   <div class="bento-grid" id="bentoGrid">
-    <div class="bento-cell bento-tall scroll-reveal" data-cat="comida" onclick="setCat('comida',this)">
+    <div class="bento-cell bento-tall scroll-pulse" data-cat="comida" onclick="setCat('comida',this)">
       <img class="bento-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=80" alt="Comida">
       <div class="bento-overlay ov-red"></div>
       <div class="bento-content">
@@ -475,7 +482,7 @@ a { text-decoration: none; }
       </div>
     </div>
 
-    <div class="bento-cell scroll-reveal" data-cat="emprendimiento" onclick="setCat('emprendimiento',this)">
+    <div class="bento-cell scroll-pulse" data-cat="emprendimiento" onclick="setCat('emprendimiento',this)">
       <img class="bento-img" src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=80" alt="Emprendimiento">
       <div class="bento-overlay ov-purple"></div>
       <div class="bento-content">
@@ -485,7 +492,7 @@ a { text-decoration: none; }
       </div>
     </div>
 
-    <div class="bento-cell scroll-reveal" data-cat="bazar" onclick="setCat('bazar',this)">
+    <div class="bento-cell scroll-pulse" data-cat="bazar" onclick="setCat('bazar',this)">
       <img class="bento-img" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80" alt="Bazar">
       <div class="bento-overlay ov-blue"></div>
       <div class="bento-content">
@@ -495,7 +502,7 @@ a { text-decoration: none; }
       </div>
     </div>
 
-    <div class="bento-cell bento-wide scroll-reveal" data-cat="servicios" onclick="setCat('servicios',this)">
+    <div class="bento-cell bento-wide scroll-pulse" data-cat="servicios" onclick="setCat('servicios',this)">
       <img class="bento-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=900&q=80" alt="Servicios">
       <div class="bento-overlay ov-teal"></div>
       <div class="bento-content">
@@ -511,7 +518,7 @@ a { text-decoration: none; }
 <div class="products-section">
   <div class="products-header">
     <h2 class="products-title" id="prodTitle">Todos los productos</h2>
-    <button class="btn-pub-outline scroll-reveal" onclick="openModal()">🛒 Publicar producto</button>
+    <button class="btn-pub-outline scroll-pulse" onclick="openModal()">🛒 Publicar producto</button>
   </div>
 
   <div class="product-grid" id="productGrid">
@@ -579,7 +586,7 @@ a { text-decoration: none; }
 </div>
 
 <div class="modal-backdrop" id="commentsModalBackdrop" onclick="handleBdClick(event, 'commentsModalBackdrop')">
-  <div class="modal-panel" style="height: 85vh;">
+  <div class="modal-panel">
     <div class="modal-header">
       <div style="display:flex;align-items:center;gap:15px">
         <div class="modal-icon" style="animation: pulseSoft 2s infinite;">🗨️</div>
@@ -654,17 +661,17 @@ a { text-decoration: none; }
     </article>
   `).join('');
 
-  // ════ Scroll Reveal Observer ════
+  // ════ Scroll Reveal Observer (Arreglado para movil y PC) ════
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('scroll-active');
+        entry.target.classList.add('pop-active');
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+  }, { threshold: 0.1 });
 
-  document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
+  document.querySelectorAll('.scroll-pulse').forEach(el => revealObserver.observe(el));
 
   window.showToast = function(msg, type = 'success') {
     let container = document.getElementById('toastContainer');
@@ -756,7 +763,7 @@ a { text-decoration: none; }
     }
   }
 
-  // ════════ LÓGICA DE COMENTARIOS FIX ROBUSTO ════════
+  // ════════ LÓGICA DE COMENTARIOS ════════
   window.openComments = function(productId, productTitle) {
     currentProductIdForComments = productId;
     document.getElementById("commentsModalSub").textContent = productTitle;
@@ -814,13 +821,18 @@ a { text-decoration: none; }
       submitBtn.disabled = true;
       submitBtn.textContent = '...';
       
-      await addDoc(collection(db, "comments"), {
+      // Creamos un tiempo maximo de 5 segundos, si las reglas fallan se cancela en lugar de quedarse infinito
+      const uploadPromise = addDoc(collection(db, "comments"), {
         productId: currentProductIdForComments,
         text: text,
         authorName: currentUser.displayName || 'Estudiante Uni',
         authorUid: currentUser.uid,
         createdAt: new Date()
       });
+      
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
+      
+      await Promise.race([uploadPromise, timeoutPromise]);
       textInput.value = '';
     } catch (err) {
       console.error(err);
@@ -945,7 +957,7 @@ a { text-decoration: none; }
       `;
 
       return `
-      <article class="card scroll-reveal">
+      <article class="card scroll-pulse">
         <div class="card-img-wrap">
           <img class="card-img" src="${p.img}" alt="" style="${p.vendido ? 'filter: grayscale(1); opacity: 0.5;' : ''}">
           <div class="card-vignette"></div>
@@ -977,9 +989,9 @@ a { text-decoration: none; }
           </div>
         </div>
       </article>`;
-    }).join("") + `<div class="card-cta scroll-reveal" onclick="openModal()"><div class="cta-icon-wrap" style="animation: bounceEmoji 3s infinite;">🛍</div><div class="cta-title">¿Tienes algo que vender?</div><div class="cta-sub">Inicia sesión y publica gratis.</div></div>`;
+    }).join("") + `<div class="card-cta scroll-pulse" onclick="openModal()"><div class="cta-icon-wrap" style="animation: bounceEmoji 3s infinite;">🛍</div><div class="cta-title">¿Tienes algo que vender?</div><div class="cta-sub">Inicia sesión y publica gratis.</div></div>`;
 
-    document.querySelectorAll('.card.scroll-reveal, .card-cta.scroll-reveal').forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.card.scroll-pulse, .card-cta.scroll-pulse').forEach(el => revealObserver.observe(el));
 
     const loadMoreBtn = document.getElementById("btnLoadMore");
     if (hasMoreData && window.activeCat !== 'mis_publicaciones' && !window.searchQ) loadMoreBtn.classList.add("show");
