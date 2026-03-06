@@ -42,13 +42,7 @@ body {
   animation: pageFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* ═══════════════════════════════════════════
-   BUG FIX: el overflow:hidden en body rompía
-   los modales en iOS Safari (aparecían fuera
-   del viewport al haber scroll). Se reemplaza
-   con lockScroll() en JS (ver abajo).
-   La clase .modal-open ya no se usa en CSS.
-═══════════════════════════════════════════ */
+
 
 @keyframes pageFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -314,14 +308,14 @@ a { text-decoration: none; }
 /* ════════════════════════════════════════════
    MODALS FIJOS Y SEGUROS (Publicar & Comentarios)
 ════════════════════════════════════════════ */
-.modal-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(0,20,40,0.6); backdrop-filter: blur(8px); padding: 16px; animation: fade-in 0.3s ease; align-items: center; justify-content: center;}
+.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,20,40,0.4); backdrop-filter: blur(16px); align-items: center; justify-content: center; padding: 16px; animation: fade-in 0.3s ease; }
 .modal-backdrop.open { display: flex; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
-.modal-panel { background: white; border-radius: 32px; width: 100%; max-width: 500px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modal-in 0.4s cubic-bezier(.22,1,.36,1) both; position: relative; margin: auto;}
+.modal-panel { background: white; border-radius: 32px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modal-in 0.4s cubic-bezier(.22,1,.36,1) both; display: flex; flex-direction: column; }
 @keyframes modal-in { from { opacity:0; transform:scale(.95) translateY(30px); } to { opacity:1; transform:scale(1) translateY(0); } }
 
-.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--border); border-top-left-radius: 32px; border-top-right-radius: 32px; flex-shrink: 0;}
+.modal-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
 .modal-icon { width: 36px; height: 36px; border-radius: 12px; background: var(--blue-900); display: flex; align-items: center; justify-content: center; color: var(--gold-400); font-size: 18px; }
 .modal-title { font-size: 18px; font-weight: 900; color: var(--blue-900); }
 .modal-sub { font-size: 13px; color: var(--slate-5); }
@@ -329,7 +323,7 @@ a { text-decoration: none; }
 .btn-close:hover { background: var(--border); color: var(--blue-900); }
 
 /* Formulario Publicar */
-.modal-form { padding: 32px; display: flex; flex-direction: column; gap: 24px; overflow-y: auto;}
+.modal-form { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field-label { font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-5); }
 .input, .select, .textarea { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--border); background: var(--surface); font-family: inherit; font-size: 15px; color: var(--blue-900); font-weight: 600; outline: none; transition: all 0.3s; }
@@ -340,7 +334,7 @@ a { text-decoration: none; }
 .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Formulario Comentarios */
-.comments-container { padding: 20px 32px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 16px; background: var(--surface); }
+.comments-container { padding: 20px 32px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--surface); }
 .comment-bubble { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(0,40,85,0.03); border: 1px solid var(--border); }
 .comment-author { font-size: 12px; font-weight: 800; color: var(--blue-900); margin-bottom: 4px; }
 .comment-text { font-size: 14px; color: var(--slate-5); line-height: 1.5; }
@@ -379,8 +373,8 @@ a { text-decoration: none; }
   .bento-tall, .bento-wide { grid-column: span 1; grid-row: span 1; }
   .bento-cell { height: auto; min-height: 220px; }
   
-  .modal-panel { max-height: 90vh; border-radius: 24px; }
-  .modal-header { border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 20px;}
+  .modal-panel { max-height: 95vh; border-radius: 24px; }
+  .modal-header { padding: 20px; }
   .comment-input-area { border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; padding: 20px;}
   .modal-form, .comments-container { padding: 20px; }
   .modal-form > div[style] { grid-template-columns: 1fr !important; } 
@@ -591,7 +585,7 @@ a { text-decoration: none; }
 </div>
 
 <div class="modal-backdrop" id="commentsModalBackdrop" onclick="handleBdClick(event, 'commentsModalBackdrop')">
-  <div class="modal-panel">
+  <div class="modal-panel" style="height:80vh;">
     <div class="modal-header">
       <div style="display:flex;align-items:center;gap:15px">
         <div class="modal-icon" style="animation: pulseSoft 2s infinite;">🗨️</div>
@@ -619,30 +613,6 @@ a { text-decoration: none; }
   import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, addDoc, query, orderBy, limit, startAfter, deleteDoc, doc, onSnapshot, updateDoc, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-
-  // ════════════════════════════════════════════
-  // BUG FIX: iOS Safari scroll lock para modales
-  // El problema: body{overflow:hidden} no funciona
-  // en iOS cuando hay scroll, el modal aparece fuera
-  // del viewport. Solución: fijar body con position:fixed
-  // ════════════════════════════════════════════
-  let _scrollY = 0;
-  function lockScroll() {
-    _scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + _scrollY + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
-  }
-  function unlockScroll() {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, _scrollY);
-  }
 
   const firebaseConfig = {
     apiKey: "AIzaSyAH1HeDku3JoJFjKKvR5B_9aV7gEk-DKyY",
@@ -796,7 +766,6 @@ a { text-decoration: none; }
   window.openComments = function(productId, productTitle) {
     currentProductIdForComments = productId;
     document.getElementById("commentsModalSub").textContent = productTitle;
-    lockScroll(); // FIX: reemplaza document.body.classList.add("modal-open")
     document.getElementById("commentsModalBackdrop").classList.add("open");
     
     const container = document.getElementById("commentsContainer");
@@ -827,7 +796,6 @@ a { text-decoration: none; }
   }
 
   window.closeCommentsModal = function() {
-    unlockScroll(); // FIX: reemplaza document.body.classList.remove("modal-open")
     document.getElementById("commentsModalBackdrop").classList.remove("open");
     if(commentsListenerUnsub) {
       commentsListenerUnsub();
@@ -1059,12 +1027,10 @@ a { text-decoration: none; }
     submitBtn.disabled = true;
     submitBtn.textContent = 'Ingresa 10 dígitos en Teléfono';
     
-    lockScroll(); // FIX: reemplaza document.body.classList.add("modal-open")
     document.getElementById("modalBackdrop").classList.add("open"); 
   }
   
   window.closeModal = function() { 
-    unlockScroll(); // FIX: reemplaza document.body.classList.remove("modal-open")
     document.getElementById("modalBackdrop").classList.remove("open"); 
   }
   
