@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Mercadito Uni — Diseño Ultra Premium</title>
 
 <meta property="og:title" content="Mercadito Uni — El mercadito de tu universidad" />
@@ -64,7 +64,7 @@ a { text-decoration: none; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shineText 8s linear infinite; /* Animacion muy lenta y elegante */
+  animation: shineText 8s linear infinite; 
 }
 
 @keyframes pulseSoft {
@@ -77,13 +77,12 @@ a { text-decoration: none; }
   50% { transform: translateY(-6px); filter: drop-shadow(0 0 10px rgba(255,255,255,0.7)); }
 }
 
-/* Animaciones Flotantes para la portada (optimizadas) */
 @keyframes float-f1 { 0%,100% { transform: rotate(-12deg) translate3d(0, 0, 0); } 50% { transform: rotate(-12deg) translate3d(0, -20px, 0); } }
 @keyframes float-f2 { 0%,100% { transform: rotate(10deg) translate3d(0, 0, 0); } 50% { transform: rotate(10deg) translate3d(0, -20px, 0); } }
 @keyframes float-f3 { 0%,100% { transform: rotate(-8deg) translate3d(0, 0, 0); } 50% { transform: rotate(-8deg) translate3d(0, -20px, 0); } }
 @keyframes float-f4 { 0%,100% { transform: rotate(14deg) translate3d(0, 0, 0); } 50% { transform: rotate(14deg) translate3d(0, -20px, 0); } }
 
-/* Scroll Pulse (Latido al aparecer en pantalla) - Siempre visibles */
+/* Scroll Pulse (Latido al aparecer en pantalla) */
 .scroll-pulse { opacity: 1; transform: scale(1); } 
 .scroll-pulse.pop-active { animation: popScale 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 @keyframes popScale {
@@ -306,12 +305,24 @@ a { text-decoration: none; }
 /* ════════════════════════════════════════════
    MODALS FIJOS Y PERFECTOS (Publicar & Comentarios)
 ════════════════════════════════════════════ */
-.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,20,40,0.6); backdrop-filter: blur(8px); padding: 20px; animation: fade-in 0.3s ease; align-items: center; justify-content: center; }
+.modal-backdrop { 
+  display: none; position: fixed; inset: 0; z-index: 9999; 
+  background: rgba(0,20,40,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 20px; animation: fade-in 0.2s ease; 
+  align-items: center; justify-content: center;
+  overscroll-behavior: contain; /* Evita que el fondo se scrollee */
+}
 .modal-backdrop.open { display: flex; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
-/* Panel con bordes inquebrantables */
-.modal-panel { background: white; border-radius: 32px !important; width: 100%; max-width: 500px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: modalScale 0.4s cubic-bezier(0.22,1,.36,1) forwards; position: relative; overflow: hidden !important; }
+.modal-panel { 
+  background: white; border-radius: 32px !important; 
+  width: 100%; max-width: 500px; max-height: 90vh; 
+  display: flex; flex-direction: column; 
+  box-shadow: 0 40px 100px rgba(0,0,0,0.3); 
+  animation: modalScale 0.3s cubic-bezier(0.22,1,.36,1) forwards; 
+  overflow: hidden !important; 
+}
 @keyframes modalScale { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
 
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--border); flex-shrink: 0; z-index: 2;}
@@ -321,19 +332,19 @@ a { text-decoration: none; }
 .btn-close { width: 36px; height: 36px; border-radius: 12px; background: var(--muted); border: none; cursor: pointer; color: var(--slate-5); font-size: 18px; transition: all 0.2s; }
 .btn-close:hover { background: var(--border); color: var(--blue-900); }
 
-/* Formulario Publicar Scroll interno */
-.modal-form { padding: 24px; display: flex; flex-direction: column; gap: 20px; flex: 1 1 auto; overflow-y: auto;}
+/* Formulario Publicar */
+.modal-form { padding: 24px; display: flex; flex-direction: column; gap: 16px; flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch;}
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field-label { font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-5); }
 .input, .select, .textarea { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--border); background: var(--surface); font-family: inherit; font-size: 15px; color: var(--blue-900); font-weight: 600; outline: none; transition: all 0.3s; }
 .input[type="file"] { padding: 12px; background: white; }
 .input:focus, .select:focus, .textarea:focus { border-color: var(--blue-900); background: white; box-shadow: 0 4px 20px rgba(0,40,85,0.08); }
-.btn-submit { width: 100%; padding: 18px; border-radius: 18px; border: none; font-family: inherit; font-size: 16px; font-weight: 900; color: white; background: var(--blue-900); transition: all 0.3s; margin-top: 10px; cursor: pointer; flex-shrink: 0;}
+.btn-submit { width: 100%; padding: 18px; border-radius: 18px; border: none; font-family: inherit; font-size: 16px; font-weight: 900; color: white; background: var(--blue-900); transition: all 0.3s; margin-top: 5px; cursor: pointer; flex-shrink: 0;}
 .btn-submit:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,40,85,0.3); }
 .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Formulario Comentarios Scroll Interno */
-.comments-container { padding: 20px 24px; flex: 1 1 auto; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--surface); }
+/* Formulario Comentarios */
+.comments-container { padding: 20px 24px; flex: 1 1 auto; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--surface); -webkit-overflow-scrolling: touch;}
 .comment-bubble { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(0,40,85,0.03); border: 1px solid var(--border); }
 .comment-author { font-size: 12px; font-weight: 800; color: var(--blue-900); margin-bottom: 4px; }
 .comment-text { font-size: 14px; color: var(--slate-5); line-height: 1.5; }
@@ -341,7 +352,7 @@ a { text-decoration: none; }
 .comment-input-area { display: flex; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--border); background: white; flex-shrink: 0;}
 
 /* TOAST NOTIFICATIONS */
-.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
 .toast { background: white; color: var(--blue-900); padding: 16px 24px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,40,85,0.15); font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 12px; animation: slide-in-toast 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; border-left: 4px solid var(--gold-500); }
 .toast.error { border-left-color: #E74C3C; }
 @keyframes slide-in-toast { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -372,8 +383,15 @@ a { text-decoration: none; }
   .bento-tall, .bento-wide { grid-column: span 1; grid-row: span 1; }
   .bento-cell { height: auto; min-height: 220px; }
   
-  .modal-panel { max-height: 85vh; border-radius: 28px !important; }
+  /* Ajustes en Móvil para que el botón Publicar siempre quepa */
+  .modal-panel { max-height: 88vh; }
+  .modal-header { padding: 16px 20px; }
+  .modal-form { padding: 16px 20px; gap: 12px; }
   .modal-form > div[style] { grid-template-columns: 1fr !important; } 
+  .modal-form .textarea { min-height: 60px; height: 60px; }
+  
+  .comments-container { padding: 16px 20px; }
+  .comment-input-area { padding: 16px 20px; }
   
   .search-box { flex-direction: column; border-radius: 20px; gap: 5px; padding: 10px; }
   .search-input { width: 100%; padding: 12px; text-align: center; border-radius: 20px; }
@@ -573,7 +591,7 @@ a { text-decoration: none; }
       </div>
       <div class="field">
         <label class="field-label">Descripción</label>
-        <textarea class="input textarea" id="pDesc" rows="3" placeholder="Detalles de tu producto..."></textarea>
+        <textarea class="input textarea" id="pDesc" rows="2" placeholder="Detalles de tu producto..."></textarea>
       </div>
       <button type="submit" class="btn-submit" id="btnSubmit" disabled>Ingresa 10 dígitos en Teléfono</button>
     </form>
@@ -758,7 +776,7 @@ a { text-decoration: none; }
     }
   }
 
-  // ════════ LÓGICA DE COMENTARIOS (SIN ORDEN PARA EVITAR BUGS DE INDICE) ════════
+  // ════════ LÓGICA DE COMENTARIOS (FIX ANTI-BLOQUEO) ════════
   window.openComments = function(productId, productTitle) {
     currentProductIdForComments = productId;
     document.getElementById("commentsModalSub").textContent = productTitle;
@@ -768,12 +786,12 @@ a { text-decoration: none; }
     setTimeout(() => {
       const input = document.getElementById('cText');
       if(input) input.focus();
-    }, 50);
+    }, 100);
     
     const container = document.getElementById("commentsContainer");
     container.innerHTML = '<div style="text-align:center; color:var(--slate-5); padding-top:40px;">Cargando comentarios...</div>';
 
-    // Consulta simplificada para evitar bloqueos
+    // Consulta super básica sin orderBy para evitar errores de Indice de Firebase
     const q = query(collection(db, "comments"), where("productId", "==", productId));
     
     commentsListenerUnsub = onSnapshot(q, (snapshot) => {
@@ -785,7 +803,7 @@ a { text-decoration: none; }
       let commentsArr = [];
       snapshot.forEach((doc) => commentsArr.push({ id: doc.id, ...doc.data() }));
       
-      // Ordenamiento Manual Local
+      // Se ordenan los comentarios localmente de forma segura
       commentsArr.sort((a, b) => {
         const tA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
         const tB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
@@ -806,8 +824,8 @@ a { text-decoration: none; }
       container.innerHTML = html;
       setTimeout(() => container.scrollTop = container.scrollHeight, 100);
     }, (error) => {
-       console.error("Error cargando comentarios:", error);
-       container.innerHTML = '<div style="text-align:center; color:#E74C3C; padding-top:40px;">Error de Firebase. Revisa las Reglas de Firestore.</div>';
+       console.error("Error Firebase:", error);
+       container.innerHTML = '<div style="text-align:center; color:#E74C3C; padding-top:40px;">Error al cargar.</div>';
     });
   }
 
@@ -834,7 +852,6 @@ a { text-decoration: none; }
       submitBtn.disabled = true;
       submitBtn.textContent = '...';
       
-      // Límite de 5 segundos
       const uploadPromise = addDoc(collection(db, "comments"), {
         productId: currentProductIdForComments,
         text: text,
@@ -848,7 +865,7 @@ a { text-decoration: none; }
       textInput.value = '';
     } catch (err) {
       console.error(err);
-      window.showToast("Error. Revisa las reglas de Firestore para 'comments'", "error");
+      window.showToast("No se pudo enviar el comentario.", "error");
     } finally {
       textInput.disabled = false;
       submitBtn.disabled = false;
@@ -1048,7 +1065,7 @@ a { text-decoration: none; }
     setTimeout(() => {
       const input = document.getElementById('pTitle');
       if(input) input.focus();
-    }, 50);
+    }, 100);
   }
   
   window.closeModal = function() { 
